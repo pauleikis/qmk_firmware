@@ -172,6 +172,7 @@ void planck_ez_right_led_off(void){
     pwmDisableChannel(&PWMD4, 2);
 }
 
+<<<<<<< Updated upstream
 void planck_ez_left_led_level(uint8_t level) {
     planck_ez_left_led_duty = (uint32_t)(cie_lightness(0xFFFF * (uint32_t) level / 255));
     if (level == 0) {
@@ -272,6 +273,25 @@ layer_state_t layer_state_set_kb(layer_state_t state) {
             break;
         default:
             break;
+=======
+  palClearPad(GPIOB, 8);
+  palClearPad(GPIOB, 9);
+  state = layer_state_set_user(state);
+  uint8_t layer = biton32(state);
+  switch (layer) {
+      case 2:
+        palSetPad(GPIOB, 9);
+        break;
+      case 3:
+        palSetPad(GPIOB, 8);
+        break;
+      case 4:
+        palSetPad(GPIOB, 9);
+        palSetPad(GPIOB, 8);
+        break;
+      default:
+        break;
+>>>>>>> Stashed changes
     }
     return state;
 }

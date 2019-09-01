@@ -3,14 +3,19 @@
 #include "version.h"
 
 #define BASE 0 // default layer
-#define GAME 1 // LT letters replaced by numbers, GUI disabled
-#define PLTF 2 // arrows and some numbers, most keys disabled
-#define EDIT 3
+#define ADVC 1 // advanced
+#define GAME 2 // LT letters replaced by numbers, GUI disabled
+#define PLTF 3 // arrows and some numbers, most keys disabled
+
 #define EDIT_LOCKED 4
-#define SYMB 5 // symbols
+
 #define MDIA 6 // media keys
-#define MAUS 7 // mouse
-#define HATE 8 // qwerty
+
+#define HATE 16 // qwerty
+
+#define SYMB 14 // symbols
+#define EDIT 15
+
 
 
 
@@ -46,82 +51,108 @@ enum custom_keycodes {
 // ┌────┬───┬───┬───┬───┬───┬───┐                    ┌───┬───┬───┬───┬───┬───┬────┐
 // │  ◆ │ ◆ │ ◆ │ ◆ │ ◆ │ ◆ │ ◆ │                    │ ◆ │ ◆ │ ◆ │ ◆ │ ◆ │ ◆ │  ◆ │
 // ├────┼───┼───┼───┼───┼───┼───┤                    ├───┼───┼───┼───┼───┼───┼────┤
-// │  ◆ │ ◆ │ V │ D │ G │ Ę │   │                    │   │ ◆ │ M │ P │ Ė │ ◆ │  ◆ │
+// │  ◆ │ Č │ J │ M │ B │ Ę │   │                    │   │ ◆ │ D │ P │ Ė │ Q │  ◆ │
 // ├────┼───┼───┼───┼───┼───┤ ◆ │                    │ ◆ ├───┼───┼───┼───┼───┼────┤
-// │  ◆ │ J │ L │ T │ A │ Ū ├───┤                    ├───┤ Š │ S │ E │ I │ Ų │  ◆ │
+// │  Ž │ K │ L │ T │ A │ V ├───┤                    ├───┤ Ū │ S │ E │ I │ O │  Ą │
 // ├────┼───┼───┼───┼───┼───┤ ◆ │                    │ ◆ ├───┼───┼───┼───┼───┼────┤
-// │  W │ K │ C │ B │ H │ Ą │   │┌───┬───┐  ┌───┬───┐│   │ Ž │ R │ F │ Y │ O │  Q │
+// │  ◆ │ W │ C │ G │ H │ Į │   │┌───┬───┐  ┌───┬───┐│   │ Ų │ R │ F │ Y │ Š │  ◆ │
 // └┬───┼───┼───┼───┼───┼───┴───┘│ ◆ │ ◆ │  │ ◆ │ ◆ │└───┴───┼───┼───┼───┼───┼───┬┘
-//  │ ◆ │ Č │ ◆ │ ◆ │ X │    ┌───┼───┼───┤  ├───┼───┼───┐    │ Z │ ◆ │ ◆ │ Į │ ◆ │
+//  │ ◆ │ ◆ │ ◆ │ ◆ │ Z │    ┌───┼───┼───┤  ├───┼───┼───┐    │ X │ ◆ │ ◆ │ ◆ │ ◆ │
 //  └───┴───┴───┴───┴───┘    │   │   │ ◆ │  │ ◆ │   │   │    └───┴───┴───┴───┴───┘
 //                           │ ◆ │ U ├───┤  ├───┤ N │ ◆ │
 //                           │   │   │ ◆ │  │ ◆ │   │   │
 //                           └───┴───┴───┘  └───┴───┴───┘
-// "◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆VDGĘ MPĖ◆◆◆◆◆JLTAŪŠSEIŲ◆◆◆WKCBHĄŽRFYOQ◆◆◆◆◆Č◆◆XZ◆◆Į◆◆◆◆UN◆◆◆"
+// "◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ČJMBĘ◆DPĖŪ◆◆◆ŽKLTAFVSEIOĄ◆◆◆WCGHĮQRŠYŲ◆◆◆◆◆◆◆◆◆ZX◆◆◆◆◆◆◆UN◆◆◆"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
-        // left hand
-        PKC_CTAB, LCMD(KC_ESC), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, PKC_SHRG,
-         LCTL(KC_TAB), XXXXXXX, KC_V, KC_D, KC_B, PKC_EE, XXXXXXX,
-         OSM(MOD_LSFT), KC_J, MT(MOD_LALT, KC_L), MT(MOD_LCTL, KC_T), MT(MOD_LGUI, KC_A), PKC_CH,
-        KC_W, MT(MOD_LSFT, KC_K), KC_C, KC_G, KC_H, PKC_II, OSL(SYMB),
-   OSL(SYMB), KC_Q, XXXXXXX, XXXXXXX, KC_X,
-                                         LT(MDIA, KC_MPLY),  RGB_TOG,
-                                                            PKC_SSHT,
-                                 LT(EDIT, KC_SPC), LT(SYMB, KC_U), XXXXXXX,
-        // right hand
-              PKC_MAUS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LCMD(KC_GRV),
-             XXXXXXX, KC_BSPC, KC_M, KC_P, PKC_EH, XXXXXXX, OSL(SYMB),
-                  PKC_SH, MT(MOD_RGUI, KC_S), MT(MOD_RCTL, KC_E), MT(MOD_RALT, KC_I), PKC_UU, OSM(MOD_RSFT),
-             OSL(SYMB), PKC_ZH, KC_R, KC_F, KC_Y, MT(MOD_RSFT, KC_O), PKC_AA,
-                            KC_Z, XXXXXXX, XXXXXXX, PKC_UH, OSL(SYMB),
-             TO(GAME), TO(SYMB),
-             XXXXXXX,
-             TO(EDIT),  LT(SYMB, KC_N), LT(EDIT, KC_SPC)
+// left hand
+     PKC_CTAB,            KC_LSFT,      OSM(MOD_LCTL),      OSM(MOD_LALT),      OSM(MOD_LGUI), XXXXXXX,   XXXXXXX,
+ LCMD(KC_ESC),             PKC_CH,               KC_J,               KC_D,               KC_B,  PKC_EE,      KC_X,
+       PKC_ZH,               KC_K,               KC_L,               KC_T,               KC_A,    KC_V,
+      KC_LSFT,               KC_W,               KC_C,               KC_G,               KC_H,  PKC_II, OSL(SYMB),
+      KC_LCTL,            KC_LALT,            KC_LGUI,               KC_X,           MO(EDIT),
+
+                                 LT(MDIA, KC_MPLY),  RGB_TOG,
+                                                    PKC_SSHT,
+                         KC_SPC,              KC_U,  PKC_SHRG,
+// right hand
+  XXXXXXX, XXXXXXX,      OSM(MOD_RGUI),      OSM(MOD_RALT),      OSM(MOD_RCTL),            KC_RSFT,        XXXXXXX,
+     KC_Z, KC_BSPC,               KC_M,               KC_P,             PKC_EH,               KC_Q,         KC_ENT,
+            PKC_UH,               KC_S,               KC_E,               KC_I,               KC_O,         PKC_AA,
+OSL(SYMB),  PKC_UU,               KC_R,               KC_F,               KC_Y,             PKC_SH,        KC_RSFT,
+                              MO(EDIT),               KC_Z,            KC_RGUI,            KC_RALT,        KC_RCTL,
+
+TO(GAME),       TO(SYMB),
+TO(ADVC),
+TO(EDIT),           KC_N,    KC_SPC
+    ),
+
+[ADVC] = LAYOUT_ergodox(  // layer 0 : default
+// left hand
+      _______,            _______,            _______,            _______,            _______, _______,   _______,
+      _______,            _______,            _______,            _______,            _______, _______,   _______,
+      _______, MT(MOD_LSFT, KC_K), MT(MOD_LCTL, KC_L), MT(MOD_LALT, KC_T), MT(MOD_LGUI, KC_A), _______,
+      _______,            _______,            _______,            _______,            _______, _______,   _______,
+      _______,            _______,            _______,            _______,            _______,
+
+                                          _______,  _______,
+                                                    _______,
+               LT(EDIT, KC_SPC),          _______,  XXXXXXX,
+// right hand
+  _______, _______,            _______,            _______,            _______,            _______,        _______,
+  _______, _______,            _______,            _______,            _______,            _______,        _______,
+           _______, MT(MOD_RGUI, KC_S), MT(MOD_RALT, KC_E), MT(MOD_RCTL, KC_I), MT(MOD_RSFT, KC_O),        _______,
+  _______, _______,            _______,            _______,            _______,            _______,        _______,
+                               _______,            _______,            _______,            _______,        _______,
+
+ XXXXXXX,       XXXXXXX,
+TO(BASE),
+ XXXXXXX,       _______, LT(EDIT, KC_SPC)
+
     ),
 
 [GAME] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_ENT,  KC_1,  KC_2,  KC_3,  KC_4,  KC_5, XXXXXXX,  
-         KC_F1, KC_F2, KC_V, KC_D, KC_B, KC_F3, XXXXXXX,
-         KC_ESC, KC_J, KC_L, KC_T, KC_A, KC_F4,
-        KC_W, KC_K, KC_C, KC_G, KC_H, KC_F5, XXXXXXX,
-         KC_LCTL, KC_Q, KC_F6, KC_LALT, KC_X,
+        XXXXXXX,  KC_1,  KC_2,  KC_3,  KC_4,  KC_5, XXXXXXX,  
+        XXXXXXX, KC_F1, _______, _______, _______, KC_F2, _______,
+         KC_F3, _______, _______, _______, _______, _______,
+        KC_LSFT, _______, _______, _______, _______, KC_F5, _______,
+         KC_LCTL, KC_LALT, KC_LGUI, _______, _______,
                                                         KC_TRNS,  KC_TRNS,
                                                                 XXXXXXX,
                                                KC_SPC, KC_U, XXXXXXX,
         // right hand
               XXXXXXX,  KC_6, KC_7,  KC_8,   KC_9,   KC_0,  XXXXXXX,
-             KC_ESC, KC_BSPC, KC_M, KC_P, PKC_EH, XXXXXXX, XXXXXXX,
-                           PKC_SH, MT(MOD_RGUI, KC_S), MT(MOD_RCTL, KC_E), MT(MOD_RALT, KC_I), PKC_UU, XXXXXXX,
-             KC_TAB, PKC_ZH, KC_R, KC_F, KC_Y, MT(MOD_RSFT, KC_O), KC_Q,
-                            KC_Z, XXXXXXX, XXXXXXX, PKC_UH, XXXXXXX,
+             _______, _______, _______, _______, _______, _______, _______,
+                      _______, _______, _______, _______, _______, _______,
+             _______, _______, _______, _______, _______, _______, _______,
+                               _______, _______, _______, _______, _______,
              TO(PLTF), TO(BASE),
              XXXXXXX, 
-             XXXXXXX, LT(SYMB, KC_N), LT(EDIT, KC_SPC)
+             XXXXXXX, _______, _______
     ),
 
 [EDIT] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-         XXXXXXX, XXXXXXX, LGUI(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-         XXXXXXX, XXXXXXX, KC_LALT, KC_LCTL, KC_LGUI, XXXXXXX,
-        XXXXXXX, KC_LSFT, LGUI(KC_C), XXXXXXX, LGUI(KC_SLSH), XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX,  LGUI(KC_X),
+        XXXXXXX, KC_F1,              KC_F2,              KC_F3,              KC_F4,   KC_F5,     KC_F6,
+         XXXXXXX, XXXXXXX, LGUI(KC_X), LGUI(KC_C), LGUI(KC_V), XXXXXXX, XXXXXXX,
+         XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LGUI(KC_SLSH), XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX,  LGUI(KC_Z),
                                                         XXXXXXX,  XXXXXXX,
                                                                             XXXXXXX,
-                                               KC_TRNS, XXXXXXX, XXXXXXX,
+                                               KC_SPC, XXXXXXX, XXXXXXX,
         // right hand
-              XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX,
+              KC_F7,   KC_F8,              KC_F9,             KC_F10,             KC_F11,             KC_F12, XXXXXXX,
               XXXXXXX, KC_TRNS,   KC_ESC,   KC_UP, KC_PGUP, XXXXXXX, XXXXXXX,
-                     XXXXXXX,   KC_LEFT,   KC_DOWN,   KC_RIGHT, XXXXXXX, XXXXXXX,
-            XXXXXXX, XXXXXXX,   KC_TAB,   XXXXXXX,   KC_PGDN,  KC_ENT, XXXXXXX,
-                     LGUI(KC_Z), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                     XXXXXXX,   KC_LEFT,   KC_DOWN,   KC_RIGHT, KC_ENT, XXXXXXX,
+            XXXXXXX, XXXXXXX,   KC_TAB,   XXXXXXX,   KC_PGDN,  XXXXXXX, XXXXXXX,
+                     LGUI(KC_X), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
              XXXXXXX, XXXXXXX,
              XXXXXXX,
-             TO(BASE),  XXXXXXX, KC_TRNS
+             TO(BASE),  XXXXXXX, KC_SPC
     ),
 
 [PLTF] = LAYOUT_ergodox(  // layer 0 : default
@@ -168,20 +199,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             
 [SYMB] = LAYOUT_ergodox(
        // left hand
-       _______, _______,   _______, _______,  _______, _______, _______,
-       _______, _______, KC_LBRC, KC_RBRC, KC_DQT, KC_TILD, _______,
-       _______, KC_LPRN, KC_RPRN, KC_COMM, KC_QUOT,  KC_GRV,
-       KC_LT, KC_LCBR, KC_RCBR, KC_DOT,  KC_COLN, KC_QUES, _______,
-       _______, KC_PIPE, _______, _______, PKC_EURO,
+       _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, _______,
+       _______, KC_PIPE, KC_LBRC, KC_RBRC,  KC_DQT, KC_TILD, _______,
+         KC_LT, KC_LPRN, KC_RPRN, KC_COMM, KC_QUOT,  KC_GRV,
+       _______, KC_LCBR, KC_RCBR,  KC_DOT, KC_COLN, KC_QUES, _______,
+       _______, _______, _______, _______, KC_UNDS,
                                        _______,_______,
                                                _______,
                               KC_SPC, KC_BSLS, _______,       
        // right hand
-         _______, _______, _______, _______, _______, _______, _______,
-       KC_BSPC, KC_TRNS,   KC_7,   KC_8,   KC_9, _______, _______,
-                KC_PPLS,   KC_4,   KC_5,   KC_6, KC_UNDS, _______,
-       KC_ENT,  KC_EQL,   KC_1,   KC_2,   KC_3,   KC_MINS, KC_GT,
-                         KC_0, _______, _______, KC_SCLN, _______,
+       _______, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN, _______,
+       _______, KC_TRNS,    KC_7,     KC_8,    KC_9, KC_PAST, _______,
+                KC_PPLS,    KC_4,     KC_5,    KC_6, KC_MINS,   KC_GT,
+       _______,  KC_EQL,    KC_1,     KC_2,    KC_3, KC_SCLN, _______,
+                            KC_0, PKC_EURO, _______, _______, _______,
        TO(BASE), XXXXXXX,
        _______,
        _______, KC_SLSH, KC_SPC
@@ -225,27 +256,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        XXXXXXX, RGB_SLD,
        _______,
        RGB_MOD, RGB_HUD, RGB_HUI
-),
-
-[MAUS] = LAYOUT_ergodox(
-       _______, _______, _______, _______, _______, _______, _______,
-       _______, _______, _______, _______, _______, _______, _______,
-       _______, _______, _______, _______, _______, _______,
-       _______, _______, _______, _______, _______, _______, _______,
-       _______, _______, _______, _______, _______,
-                                           _______, _______,
-                                                    _______,
-                                  _______, _______, _______,
-    // right hand
-      TO(BASE), _______, _______, _______, _______, _______, _______,
-       _______, _______, _______, KC_MS_U, _______, _______, _______,
-                _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,
-       _______, _______, _______, _______, _______, _______, _______,
-                         _______, _______, _______, _______, _______,
-       _______, _______,
-       _______,
-       _______, KC_BTN2, KC_BTN1
 )
+// ,
+// [MAUS] = LAYOUT_ergodox(
+//        _______, _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______,
+//                                            _______, _______,
+//                                                     _______,
+//                                   _______, _______, _______,
+//     // right hand
+//       TO(BASE), _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, KC_MS_U, _______, _______, _______,
+//                 _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,
+//        _______, _______, _______, _______, _______, _______, _______,
+//                          _______, _______, _______, _______, _______,
+//        _______, _______,
+//        _______,
+//        _______, KC_BTN2, KC_BTN1
+// )
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -353,13 +384,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return true;
       break;
-    case PKC_MAUS:
-      if (record->event.pressed) {
-        layer_on(EDIT);
-        layer_on(MAUS);
-      }
-      return false;
-      break;
+    // case PKC_MAUS:
+    //   if (record->event.pressed) {
+    //     layer_on(EDIT);
+    //     layer_on(MAUS);
+    //   }
+    //   return false;
+    //   break;
     case PKC_CTAB:
       if (record->event.pressed) {
         register_code(KC_LCMD);
@@ -416,15 +447,21 @@ uint32_t layer_state_set_user(uint32_t state) {
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
         break;
+      case ADVC:
+        rgblight_sethsv_noeeprom_teal();
+        ergodox_right_led_1_on();
+        ergodox_right_led_2_off();
+        ergodox_right_led_3_off();
+        break;
       case PLTF:
         rgblight_sethsv_noeeprom_goldenrod();
         break;
       case HATE:
         rgblight_sethsv_noeeprom_red();
         break;
-      case MAUS:
-        ergodox_right_led_1_on();
-        break;
+      // case MAUS:
+      //   ergodox_right_led_1_on();
+      //   break;
       case EDIT:
       case EDIT_LOCKED:
         ergodox_right_led_3_on();
